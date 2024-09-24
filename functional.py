@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import Callable, Tuple, List
+from typing import Callable, Tuple
 
 # fuzzbuzz через мультиметод
 
@@ -20,9 +20,9 @@ _fuzzbuzz = multimethod (
     dispatcher= lambda n: (n % 3 == 0, n % 5 == 0),
     ops=
     {
-        (True, True)    : lambda n: "fuzzbuzz",
-        (True, False)   : lambda n: "fuzz",
-        (False, True)   : lambda n: "buzz",
+        (True, True)    : lambda _: "fuzzbuzz",
+        (True, False)   : lambda _: "fuzz",
+        (False, True)   : lambda _: "buzz",
         (False, False)  : lambda n: n 
 
     }                       
@@ -34,7 +34,6 @@ fuzzbuzz = lambda n: reduce (lambda _, elem: print (elem, end= ','), map (_fuzzb
 # каррирование
 
 from functools import partial
-from itertools import filterfalse
 import inspect
 
 def curry (f: Callable):
@@ -61,7 +60,7 @@ def sum_ (a: int, b: int, c: int):
 # пайпы
 
 class Pipe:
-    def __init__ (self, *fns: List[Callable]):
+    def __init__ (self, *fns: Callable):
         self.fns = list (fns)
 
     def __or__ (self, fn: Callable):
@@ -96,6 +95,3 @@ if __name__ == '__main__':
 
     print (pipe_1 (5))
     print (pipe_2 (5))
-    
-
-
